@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Apology 💗</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f0a5ef, #b34fce, #ad0dd1);
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #754456;
+}
+
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 550px;
+}
+
+h1 {
+    font-size: clamp(28px, 6vw, 42px);
+    margin-bottom: 15px;
+    color: #8c37d6;
+}
+
+.message {
+    font-size: 19px;
+    min-height: 55px;
+    margin: 20px 0;
+    transition: 0.3s;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 35px;
+    position: relative;
+    min-height: 100px;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 14px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.25s, background 0.25s;
+}
+
+#yesBtn {
+    background: #a74dc5;
+    color: white;
+    z-index: 2;
+    transform-origin: center;
+}
+
+#yesBtn:hover {
+    background: #684375;
+}
+
+#noBtn {
+    background: white;
+    color: #a74dc5;
+    border: 2px solid #773e7b;
+    position: relative;
+    z-index: 3;
+}
+
+.heart {
+    position: fixed;
+    pointer-events: none;
+    animation: floatUp 5s linear forwards;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* ENVELOPE */
+
+#letterScreen {
+    display: none;
+    flex-direction: column;
+}
+
+.envelope {
+    width: 220px;
+    height: 145px;
+    background: hsl(303, 69%, 65%);
+    position: relative;
+    margin: 45px auto;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px #c47b9660;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 110px solid transparent;
+    border-right: 110px solid transparent;
+    border-top: 85px solid #f6b1c7;
+    z-index: 3;
+    transform-origin: top;
+    transition: transform 0.8s;
+}
+
+.envelope::after {
+    content: "♥";
+    position: absolute;
+    color: #fff;
+    font-size: 30px;
+    top: 65px;
+    left: 95px;
+    z-index: 4;
+}
+
+.envelope.open::before {
+    transform: rotateX(180deg);
+}
+
+.envelope.open .paper {
+    transform: translateY(-110px);
+}
+
+.paper {
+    position: absolute;
+    background: #fefaff;
+    width: 185px;
+    height: 115px;
+    left: 17px;
+    top: 10px;
+    transition: transform 0.8s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d65b85;
+    font-size: 24px;
+    border-radius: 4px;
+}
+
+#openText {
+    color: #d65b85;
+    font-size: 17px;
+}
+
+/* LETTER */
+
+#letter {
+    display: none;
+    background: #dbbddc;
+    padding: 35px;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 10px 40px #bd7d9840;
+    animation: appear 1s ease;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+#letter h2 {
+    color: #d65b85;
+    margin-bottom: 20px;
+}
+
+#letter p {
+    line-height: 1.9;
+    font-size: 16px;
+    text-align: left;
+    white-space: pre-line;
+}
+
+.signature {
+    margin-top: 25px;
+    color: #d65b85;
+    font-style: italic;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FIRST SCREEN -->
+
+<div class="screen" id="mainScreen">
+    <div class="container">
+
+        <div style="font-size:55px;">💗</div>
+
+        <h1>Can you forgive me?</h1>
+
+        <p class="message" id="message">
+            I have something important to tell you...
+        </p>
+
+        <div class="buttons">
+            <button id="yesBtn" onclick="sayYes()">
+                Yes ❤️
+            </button>
+
+            <button id="noBtn" onclick="sayNo()">
+                No 🙃
+            </button>
+        </div>
+
+        <p style="margin-top:25px;font-size:13px;color:#b77d91;">
+            Please hear me out...
+        </p>
+
+    </div>
+</div>
+
+<!-- ENVELOPE SCREEN -->
+
+<div class="screen" id="letterScreen">
+    <div class="container">
+
+        <h1>Thank you... 🥹</h1>
+
+        <p>You have no idea how much this means to me.</p>
+
+        <div class="envelope" id="envelope" onclick="openLetter()">
+            <div class="paper">For You 💌</div>
+        </div>
+
+        <p id="openText">Tap the envelope to open your letter.</p>
+
+    </div>
+</div>
+
+<!-- APOLOGY LETTER -->
+
+<div class="screen" id="finalScreen" style="display:none;overflow-y:auto;">
+
+    <div id="letter">
+
+        <div style="font-size:40px;text-align:center;">💌</div>
+
+        <h2>YOBMOTS</h2>
+
+        <p id="letterContent"></p>
+
+        <div class="signature">
+            sincere basta to, WAG MONA ISEND SAKANILA<br>
+            
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// MESSAGES WHEN SHE CLICKS NO
+
+const messages = [
+    "sure kana r'yan? 🥺",
+    "bati na tayo bff",
+    "sorry naaaaa",
+    "ge click lang",
+    "I promise I'm being sincere. 💗",
+    "please gandaaa 🥹",
+    "eeyak nako",
+    "yes na nga kasiiii",
+    "tamo oh anlaki na ng YES button 🥺",
+    "UMAASA",
+    "sorry na nganiii sa mga nasabi kuuu",
+    "bati na tayo boii 🥺",
+    "YESSSS NAAAA",
+    "pleaaseeee na busseng",
+    "eyak na talaga ako 🥺"
+];
+
+let noCount = 0;
+let yesScale = 1;
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const message = document.getElementById("message");
+
+// NO BUTTON FUNCTION
+
+function sayNo() {
+
+    // Change message
+    message.textContent =
+        messages[Math.min(noCount, messages.length - 1)];
+
+    // Grow YES button
+    yesScale = Math.min(yesScale + 0.18, 3.5);
+    yesBtn.style.transform = `scale(${yesScale})`;
+
+    // Move NO button randomly around the screen
+    noBtn.style.position = "fixed";
+
+    const maxX = window.innerWidth - noBtn.offsetWidth - 15;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 15;
+
+    const randomX = Math.max(15, Math.random() * maxX);
+    const randomY = Math.max(15, Math.random() * maxY);
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    noCount++;
+
+    // Final message after several clicks
+    if (noCount >= messages.length) {
+        message.textContent =
+            "yuyyyy mag yeyess naaaaa";
+    }
+}
+
+// YES BUTTON FUNCTION
+
+function sayYes() {
+
+    document.getElementById("mainScreen").style.display = "none";
+
+    document.getElementById("letterScreen").style.display = "flex";
+
+    createHearts();
+}
+
+// ENVELOPE ANIMATION
+
+function openLetter() {
+
+    const envelope = document.getElementById("envelope");
+
+    envelope.classList.add("open");
+
+    document.getElementById("openText").textContent =
+        "opend";
+
+    setTimeout(() => {
+
+        document.getElementById("letterScreen").style.display = "none";
+
+        document.getElementById("finalScreen").style.display = "flex";
+
+        document.getElementById("letter").style.display = "block";
+
+        typeLetter();
+
+    }, 1300);
+}
+
+// EDIT YOUR OWN APOLOGY HERE
+
+const apology =
+`dudongg,
+
+sa totoo lang men, diko talaga alam ano sasabihin ko or tungkol san ako magsosorry.
+kasi ano men eh diko alam kung ano ikinagagalit nyo, pero iaassume kong ang ikinagagalit mo sakin is yung attitude ko non sa gc
+and yung napaasa ko raw si kayce lalo na sa notes na sinend sainyo.
+
+diko alam kung pinakita ba sainyo yung sinabi kong bawal pa yung notes na ganon kasi dikopa sya  masyadong kilala,
+pero kahit naman siguro pinakita sainyo masasabi nyo parin naman na napaasa ko sya eh, hindi ko narin alam kung ano pa ieexplain ko sainyo about dun kay kayce eh, diko naman alam mga sinabi sainyo, pero kung gusto nyo maclarify ko sainyo, pwede nyo naman sabihin sakin, pero kayo bahala kung need paba ng clarifications
+basta dito lang ako pag may  dipa malinaw.
+
+sorry din pala sa attitude ko non kasi nabother talaga me nun kasi parang hindi nyo naintindihan tapos di nyo naman ako pinag explain kasi sabi baga ni paci maghanap nalang ako kausap HHAHAHHAAH
+kumbaga nangyare non is nagkanda letche letche na
+nahuhurt na nga ako non sa mga sinabi ni paci kasi sabi nya parang wala lang yung sorry ko
+diko alam kung panong wala eh, maayos naman pakikipag usap ko kay kayce non eh
+tapos yung sinabi pang pride ko raw, eh nagsorry nako ilang beses non eh. matud nafeel ko non di nyomuna inintindi mga sinabi ko
+
+sorry talaga non men, sabi ka nalang pag may mga clarifications pa❤️`;
+
+// TYPING ANIMATION
+
+function typeLetter() {
+
+    const content = document.getElementById("letterContent");
+
+    content.textContent = "";
+
+    let i = 0;
+
+    function typing() {
+        if (i < apology.length) {
+            content.textContent += apology.charAt(i);
+            i++;
+
+            document.getElementById("finalScreen").scrollTop =
+                document.getElementById("finalScreen").scrollHeight;
+
+            setTimeout(typing, 35);
+        }
+    }
+
+    typing();
+}
+
+// FLOATING HEARTS
+
+function createHearts() {
+
+    setInterval(() => {
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+        heart.textContent = ["💗", "💕", "💖", "♡"][
+            Math.floor(Math.random() * 4)
+        ];
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (15 + Math.random() * 25) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+
+    }, 450);
+}
+
+</script>
+
+</body>
+</html>
